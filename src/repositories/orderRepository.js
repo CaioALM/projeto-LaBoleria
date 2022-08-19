@@ -2,8 +2,8 @@ import connection from "../../database.js";
 
 async function createOrder(clientId, cakeId, quantity, totalPrice) {
     return connection.query(`
-    INSERT INTO orders ("clientId", "cakeId", quantity, "totalPrice") 
-    VALUES ($1, $2, $3, $4)`, 
+    INSERT INTO orders ("clientId", "cakeId", quantity, "totalPrice", "createdAt") 
+    VALUES ($1, $2, $3, $4, LOCALTIMESTAMP(0))`, 
     [clientId, cakeId, quantity, totalPrice ]);
 }
 
@@ -38,7 +38,7 @@ async function getOrdersByDate(date) {
     FROM orders o
     JOIN clients cl ON o."clientId" = cl.id
     JOIN cakes ca ON ca.id = o."cakeId"
-    WHERE o."createdAt" = $1`, [date]
+    WHERE o."createdAt" LIKE $1`, [`${date}%`]
     );
 }
 async function getOrdersById(id) {

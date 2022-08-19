@@ -9,7 +9,7 @@ async function createClient(name, address, phone) {
 
 async function findClientById(clientId) {
     return connection.query(`
-    SELECT order FROM clients 
+    SELECT * FROM clients 
     WHERE id = $1`, 
     [clientId]);
 }

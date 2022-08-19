@@ -11,7 +11,6 @@ export async function postOrder(req, res ) {
         const { rowCount: clients } = await clientsRepository.findClientById(clientId);
         const { rowCount: cakes } = await cakesRepository.findCakeById(cakeId);
 
-        console.log("conta bolo ", cakes, clients)
         if (clients === 0 || cakes === 0) return res.sendStatus(404);
 
         await orderRepository.createOrder(clientId, cakeId, quantity, totalPrice);
@@ -25,6 +24,7 @@ export async function postOrder(req, res ) {
 }
 export async function getOrder(req, res ) {
     const { date } = req.query;
+    console.log(date)
     try {
         if ( !date ) {
             const orders  = await orderRepository.getOrders();
