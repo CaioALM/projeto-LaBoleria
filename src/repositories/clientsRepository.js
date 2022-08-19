@@ -7,7 +7,31 @@ async function createClient(name, address, phone) {
     [name, address, phone]);
 }
 
+async function findClientById(clientId) {
+    return connection.query(`
+    SELECT * FROM clients 
+    WHERE id = $1`, 
+    [clientId]);
+}
+
+async function getOrdersByClientId(clientId) {
+    return connection.query(`
+    SELECT 
+    o.id AS "orderId",
+    o.quantity,
+    o."createdAt",
+    o."totalPrice",
+    ca.name AS "cakeName"
+    FROM clients cl
+    JOIN orders o ON cl.id = o."clientId"
+    JOIN cakes ca ON o."cakeId" = ca.id
+    WHERE cl.id=$1`, 
+  [clientId]);
+}
+
 const clientsRepository = {
-    createClient
+    createClient,
+    findClientById,
+    getOrdersByClientId,
 }
 export default clientsRepository;

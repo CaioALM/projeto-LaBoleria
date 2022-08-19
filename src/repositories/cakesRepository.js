@@ -10,13 +10,21 @@ async function createCakes(name, price, image, description) {
 
 async function getCakeName(name){
     return connection.query(`
-    SELECT * FROM cakes WHERE name = $1`, 
+    SELECT * FROM cakes 
+    WHERE name = $1`, 
     [name]);
-    
+}
+async function findCakeById(cakeId){
+    return connection.query(`
+    SELECT * FROM cakes 
+    WHERE id = $1`, 
+    [cakeId]);
 }
 
 const cakesRepository = {
     createCakes,
     getCakeName,
+    findCakeById
 }
+
 export default cakesRepository;
