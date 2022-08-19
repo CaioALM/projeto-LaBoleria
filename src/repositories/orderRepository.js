@@ -39,7 +39,7 @@ async function getOrdersByDate(date) {
     FROM orders o
     JOIN clients cl ON o."clientId" = cl.id
     JOIN cakes ca ON ca.id = o."cakeId"
-    WHERE o."createdAt"::date = date '${date}';`
+    WHERE o."createdAt"::date = $1;`, [`${date}`]
     );
 }
 async function getOrdersById(id) {
